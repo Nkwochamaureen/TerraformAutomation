@@ -1,0 +1,5 @@
+version: 0.12
+output:
+  file: README.md
+  sort: true
+  header-from: main.tf

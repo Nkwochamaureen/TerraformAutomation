@@ -1,0 +1,35 @@
+name: Generate Terraform Docs
+
+on:
+  push:
+    branches:
+      - docs-generation
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Install terraform-docs
+      run: |
+        curl -Lo /usr/local/bin/terraform-docs https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.0/terraform-docs-v0.12.0-linux-amd64
+        chmod +x /usr/local/bin/terraform-docs
+
+    - name: Generate documentation
+      run: terraform-docs markdown . > README.md
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add README.md
+        git commit -m "Update Terraform docs"
+        git push
+
+        
