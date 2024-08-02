@@ -42,3 +42,27 @@ variable "disk_image" {
   description = "The image for the boot disk"
   type        = string
 }
+
+variable "domain_name" {
+  description = "The domain name for the managed SSL certificate"
+  type        = string
+}
+
+variable "instance_group" {
+  description = "The instance group to attach to the backend service"
+  type        = string
+}
+
+variable "network" {
+  description = "The network to attach to the instance"
+  type        = string
+}
+
+variable "load_balancer_name" {
+  description = "The name of the load balancer"
+  type        = string
+}
+  
+
+  
+ 

@@ -7,5 +7,5 @@ instance_name  = "my-vm-instance"
 machine_type   = "n1-standard-1"
 zone           = "us-central1-a"
 disk_image     = "debian-cloud/debian-11"
-
-
+domain_name    = "terraform.example.com"
+network          = "default"

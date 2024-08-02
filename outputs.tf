@@ -6,10 +6,15 @@ output "subnet_id" {
   value = module.network.subnet_id
 }
 
-output "instance_id" {
-  value = module.compute.instance_id
+output "global_ip" {
+  value = google_compute_global_address.default.address
 }
 
-output "instance_self_link" {
-  value = module.compute.instance_self_link
+output "url_map" {
+  value = google_compute_url_map.default.self_link
 }
+
+output "backend_service" {
+  value = google_compute_backend_service.default.self_link
+}
+

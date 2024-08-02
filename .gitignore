@@ -1,0 +1,35 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.lock.hcl*
+*.tfstate.backup*
+
+.terraform/
+crash.log
+
+# Logs
+*.log
+
+# Secrets and keys (example for GCP_SA_KEY)
+*.json
+*.key
+*.pem
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Ignore the specific LICENSE.txt file
+.terraform/providers/registry.terraform.io/hashicorp/google/5.38.0/windows_amd64/LICENSE.txt
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+
+# Terraform .terraform directory
+.terraform/
