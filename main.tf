@@ -20,6 +20,6 @@ module "load_balancer" {
   network            = var.network
   project_id         = var.project_id
   load_balancer_name = var.load_balancer_name
-  cloud_run_service_name = basename()
+
 }
 

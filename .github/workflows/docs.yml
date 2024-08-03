@@ -1,5 +1,4 @@
 name: Generate Terraform Docs
-
 on:
   push:
     branches:
