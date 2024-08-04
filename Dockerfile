@@ -1,5 +1,15 @@
-FROM nginx:latest
+# Use an image with Terraform and other necessary tools
+FROM hashicorp/terraform:latest
 
-COPY ./docs /usr/share/nginx/html
+# Install any additional tools if needed
+RUN apk add --no-cache curl git
 
-EXPOSE 80
+# Copy your Terraform documentation generation script into the container
+COPY generate_docs.sh /usr/local/bin/generate_docs.sh
+RUN chmod +x /usr/local/bin/generate_docs.sh
+
+# Set the working directory
+WORKDIR /workspace
+
+# Define the entrypoint
+ENTRYPOINT ["/usr/local/bin/generate_docs.sh"]
