@@ -13,12 +13,10 @@ module "network" {
 
 module "load_balancer" {
   source               = "./modules/load_balancer"
-  machine_type         = var.machine_type
   zone                 = var.zone
   network              = var.network
   project_id           = var.project_id
   load_balancer_name   = var.load_balancer_name
-  instance_name        = var.instance_name
-  disk_image           = var.disk_image
+  cloud_run_service_name = var.cloud_run_service_name
   
 }

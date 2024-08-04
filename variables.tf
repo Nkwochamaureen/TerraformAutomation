@@ -48,11 +48,6 @@ variable "domain_name" {
   type        = string
 }
 
-variable "instance_group" {
-  description = "The instance group to attach to the backend service"
-  type        = string
-}
-
 variable "network" {
   description = "The network to attach to the instance"
   type        = string
@@ -64,6 +59,10 @@ variable "load_balancer_name" {
 }
 
  
-
+variable "cloud_run_service_name" {
+   description = "The cloud run name"
+  type        = string
+}
+  
   
  
