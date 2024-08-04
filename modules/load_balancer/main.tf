@@ -115,19 +115,19 @@ resource "google_compute_instance_group" "default" {
 
 
 
-resource "google_compute_instance_group_manager" "default" {
-  name = "instance-group-manager"
+ resource "google_compute_instance_group_manager" "default" {
+   name = "instance-group-manager"
 
-  base_instance_name = "instance"
-  zone               = var.zone
+   base_instance_name = "instance"
+   zone               = var.zone
 
-  version {
-    instance_template  = google_compute_instance_template.default.self_link
+   version {
+     instance_template  = google_compute_instance_template.default.self_link
     
-  }
+   }
 
-}
-resource "google_compute_instance_template" "default" {
+ }
+ resource "google_compute_instance_template" "default" {
   name         = "instance-template"
   machine_type = "e2-micro"
 
@@ -143,6 +143,41 @@ resource "google_compute_instance_template" "default" {
   }
 
   metadata = {
-    startup-script = "#! /bin/bash\n     sudo apt-get update\n     sudo apt-get install apache2 -y\n     sudo a2ensite default-ssl\n     sudo a2enmod ssl\n     vm_hostname=\"$(curl -H \"Metadata-Flavor:Google\" \\\n   http://169.254.169.254/computeMetadata/v1/instance/name)\"\n   sudo echo \"Page served from: $vm_hostname\" | \\\n   tee /var/www/html/index.html\n   sudo systemctl restart apache2"
+    gcp-container-declaration = <<EOF
+spec:
+  containers:
+    - name: terraform-docs
+      image: mirror.gcr.io/nkwocha1234/terraform-docs@sha256:7d3214973df417e5999721b5d4c2b97b0e4dd42682646d4684e2ee38f3f98a5b
+      ports:
+        - containerPort: 8080
+EOF
   }
+
+  service_account {
+    email = "768473134994-compute@developer.gserviceaccount.com"
+    scopes = ["cloud-platform"]
+  }
+}
+resource "google_compute_firewall" "allow-http" {
+  name    = "allow-http"
+  network = var.network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "allow-https" {
+  name    = "allow-https"
+  network = var.network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
 }
