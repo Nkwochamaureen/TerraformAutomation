@@ -17,6 +17,8 @@ WORKDIR /workspace
 # Expose the port on which the container will listen
 EXPOSE 8080
 
+ENV PORT 8080
+
 # Define the entrypoint
 ENTRYPOINT ["/usr/local/bin/generate_docs.sh"]
 
