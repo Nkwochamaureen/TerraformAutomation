@@ -33,7 +33,7 @@ resource "google_compute_backend_service" "default" {
     group = google_compute_instance_group.default.self_link
   }
 }
- 
+
 
 resource "google_compute_https_health_check" "default" {
   name                = "https-health-check"
@@ -89,7 +89,7 @@ resource "google_compute_instance" "vm_instance" {
   }
 
   network_interface {
-    network = var.network
+    network =  var.network
     access_config {}
   }
 }
@@ -98,11 +98,23 @@ resource "google_compute_instance" "vm_instance" {
 resource "google_compute_instance_group" "default" {
   name = "instance-group"
   zone = var.zone
- instances = [
-    google_compute_instance.vm_instance,
-  ]
-  
+  instances = [
+    google_compute_instance.vm_instance.self_link,  
+ ]
+ named_port {
+    name = "http"
+    port = "80"
+  }
+
+  named_port {
+    name = "https"
+    port = "443"
+  }
+
 }
+
+
+
 resource "google_compute_instance_group_manager" "default" {
   name = "instance-group-manager"
 
@@ -111,8 +123,9 @@ resource "google_compute_instance_group_manager" "default" {
 
   version {
     instance_template  = google_compute_instance_template.default.self_link
+    
   }
-    target_size  = 1
+
 }
 resource "google_compute_instance_template" "default" {
   name         = "instance-template"
@@ -125,7 +138,7 @@ resource "google_compute_instance_template" "default" {
   }
 
   network_interface {
-    network = "default"
+    network =  var.network
     access_config {}
   }
 
