@@ -37,7 +37,7 @@ resource "google_compute_backend_service" "default" {
 
 resource "google_compute_https_health_check" "default" {
   name                = "https-health-check"
-  request_path        = "/"
+  request_path        = "/health"
   check_interval_sec  = 5
   timeout_sec         = 5
   healthy_threshold   = 2
@@ -81,6 +81,7 @@ resource "google_compute_instance" "vm_instance" {
   name         = var.instance_name
   machine_type = var.machine_type
   zone         = var.zone
+  tags         = ["allow-http", "allow-https", "allow-health-check"]
 
   boot_disk {
     initialize_params {
@@ -180,4 +181,16 @@ resource "google_compute_firewall" "allow-https" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+}
+
+resource "google_compute_firewall" "allow-health-check" {
+  name    = "allow-health-check"
+  network = var.network
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 }
