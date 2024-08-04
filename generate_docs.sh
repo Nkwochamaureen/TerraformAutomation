@@ -1,21 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
-# Install terraform-docs if it's not already installed
-if ! command -v terraform-docs &> /dev/null; then
-    echo "terraform-docs not found, installing..."
-    curl -sSL https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.1/terraform-docs-v0.16.1-linux-amd64.tar.gz | tar -xzC /usr/local/bin terraform-docs
-fi
+# Generate documentation
+terraform-docs markdown . > /workspace/docs.md
 
-# Change directory to where your Terraform files are located
-cd /workspace
+# Move documentation to the nginx directory
+mkdir -p /usr/share/nginx/html
+cp /workspace/docs.md /usr/share/nginx/html/index.html
 
-# Generate documentation in markdown format
-terraform-docs markdown . > README.md
-
-# Serve the documentation using a simple web server
-apk add --no-cache nginx
-cp /usr/share/nginx/html/index.html /usr/share/nginx/html/index.html.bak
-echo "<html><body><pre>$(cat README.md)</pre></body></html>" > /usr/share/nginx/html/index.html
-
-# Start Nginx to serve the documentation
+# Start nginx in the foreground
 nginx -g 'daemon off;'

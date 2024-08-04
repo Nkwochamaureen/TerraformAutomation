@@ -36,4 +36,4 @@ Desktop.ini
 
 *.tfvars
 *terragrunt.hcl
-*generate_docs.sh
+*generate_docs.sh 
