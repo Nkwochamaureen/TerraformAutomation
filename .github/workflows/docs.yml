@@ -2,7 +2,7 @@ name: Generate Terraform Docs
 on:
   push:
     branches:
-      - docs-generation
+      - main
 
 jobs:
   generate-docs:
