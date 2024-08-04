@@ -1,5 +1,5 @@
 # Use an image with Terraform and other necessary tools
-FROM hashicorp/terraform:latest
+FROM hashicorp/terraform:latest AS terraform
 
 # Install necessary tools including nginx
 RUN apk add --no-cache curl git nginx
@@ -16,4 +16,5 @@ WORKDIR /workspace
 
 # Define the entrypoint
 ENTRYPOINT ["/usr/local/bin/generate_docs.sh"]
+
 
