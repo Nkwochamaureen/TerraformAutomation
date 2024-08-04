@@ -1,5 +1,5 @@
 # Use an image with Terraform and other necessary tools
-FROM hashicorp/terraform:latest AS terraform
+FROM hashicorp/terraform:latest
 
 # Install necessary tools including nginx
 RUN apk add --no-cache curl git nginx
@@ -14,7 +14,11 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Set the working directory
 WORKDIR /workspace
 
+# Expose the port on which the container will listen
+EXPOSE 8080
+
 # Define the entrypoint
 ENTRYPOINT ["/usr/local/bin/generate_docs.sh"]
+
 
 
