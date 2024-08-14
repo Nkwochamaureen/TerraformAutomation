@@ -1,0 +1,7 @@
+site_name: Terraform Documentation
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Modules: modules.md
+theme:
+  name: mkdocs
