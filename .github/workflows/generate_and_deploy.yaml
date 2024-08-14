@@ -29,7 +29,7 @@ jobs:
       - name: Generate documentation
         run: |
           terraform-docs markdown table .
-          mkdocs build -d docs
+           mkdocs build
 
       - name: Build and push Docker image
         run: |
