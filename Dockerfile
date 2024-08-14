@@ -22,7 +22,7 @@ RUN chmod +x /usr/local/bin/generate_docs.sh
 RUN mkdir -p /usr/share/nginx/html
 
 # Set the working directory
-WORKDIR /workspace
+WORKDIR C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation
 
 # Expose the port on which the container will listen
 EXPOSE 8080

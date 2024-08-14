@@ -6,14 +6,16 @@ output "subnet_id" {
   value = module.network.subnet_id
 }
 
-output "load_balancer_ip" {
-  value = google_compute_global_address.static_ip.address
+output "storage_bucket_name" {
+  value = module.storage_bucket.bucket_name
 }
-  
 
+output "load_balancer_ip" {
+  value = module.load_balancer.load_balancer_ip
+}
 
-
-
-
+output "bucket_url" {
+  value = module.storage_bucket.bucket_url
+}
 
 

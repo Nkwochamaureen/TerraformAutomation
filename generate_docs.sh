@@ -16,16 +16,15 @@ if ! command -v terraform-docs >/dev/null; then
 fi
 
 # Change directory to where your Terraform files are located
-cd /workspace
+cd /"C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation"
 
 # Generate documentation
 terraform-docs markdown table . > /usr/share/nginx/html/index.html
 
 # Handle README.md (modify path if needed)
-if [ -f /path/to/your/README.md ]; then
-  cat /path/to/your/README.md >> /usr/share/nginx/html/index.html
+if [ -f C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation/README.md ]; then
+  cat C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation/README.md >> /usr/share/nginx/html/index.html
 fi
 
 # Start Nginx to serve the documentation
 nginx -g 'daemon off;'
-
