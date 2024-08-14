@@ -16,4 +16,4 @@ tar -czvf /output.tar.gz /output
 
 echo "Documentation generation complete!"
 
-exit 0
+exit 0  
