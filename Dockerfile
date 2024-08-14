@@ -1,33 +1,22 @@
-# Use an image with Terraform and other necessary tools
-FROM hashicorp/terraform:latest
+# Use a slim Python image
+FROM python:3.11-slim
 
-# Install necessary tools including nginx
-RUN apk add --no-cache curl git nginx tar
-
-# Install terraform-docs
-RUN curl -LO https://github.com/terraform-docs/terraform-docs/releases/download/v0.14.0/terraform-docs-v0.14.0-linux-amd64.tar.gz && \
-    tar -xzf terraform-docs-v0.14.0-linux-amd64.tar.gz && \
-    mv terraform-docs /usr/local/bin/ && \
-    rm terraform-docs-v0.14.0-linux-amd64.tar.gz
+# Set working directory
+WORKDIR /app
 
 # Copy necessary files
-COPY generate_docs.sh /usr/local/bin/generate_docs.sh
-COPY README.md /usr/local/src/README.md
+COPY README.md /app/README.md  # Optional for additional content/
+COPY . C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation  # Replace with the actual path to your Terraform code/
 
-# Ensure the script is executable
-RUN chmod +x /usr/local/bin/generate_docs.sh
+# Install dependencies
+RUN pip install terraform-docs mkdocs
 
-# Create necessary directories
-RUN mkdir -p /usr/share/nginx/html
-
-# Set the working directory
-WORKDIR /C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation
-
-# Expose the port on which the container will listen
+# Expose port for serving documentation
 EXPOSE 8080
 
-# Define the entrypoint
-ENTRYPOINT ["/usr/local/bin/generate_docs.sh"]
+# Command to run: Generate documentation and serve
+CMD ["mkdocs", "serve"]
+
 
 
 

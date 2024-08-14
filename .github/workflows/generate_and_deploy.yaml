@@ -1,0 +1,40 @@
+name: Generate and Deploy Terraform Docs
+
+on:
+  push:
+    branches: [main]  # Replace with your desired branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8  # Replace with your desired Python version
+
+      - name: Install dependencies
+        run: pip install terraform-docs mkdocs
+
+      - name: Generate documentation
+        run: |
+          terraform-docs markdown table .
+          mkdocs build -d docs
+
+      - name: Build and push Docker image
+        run: |
+          pip install google-cloud-sdk
+          gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+          docker build -t gcr.io/$PROJECT_ID/terraform-docs:latest .
+          gcloud docker -- push gcr.io/$PROJECT_ID/terraform-docs:latest
+
+      # Optional: Deploy to Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          pip install google-cloud-sdk
+          gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+          gcloud run deploy --image gcr.io/$PROJECT_ID/terraform-docs:latest --platform managed
+
