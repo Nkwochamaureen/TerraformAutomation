@@ -36,9 +36,10 @@ jobs:
              curl https://sdk.cloud.google.com | bash
              source $HOME/google-cloud-sdk/path.bash.inc
              
-      - name: Authenticate with Google Cloud
-        run: |
-             gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v0
+        with:
+               credentials_json: ${{ secrets.GCP_SA_KEY }}
    
       - name: Build and push Docker image
         run: |
