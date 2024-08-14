@@ -12,7 +12,6 @@ RUN curl -LO https://github.com/terraform-docs/terraform-docs/releases/download/
 
 # Copy necessary files
 COPY generate_docs.sh /usr/local/bin/generate_docs.sh
-COPY nginx.conf /etc/nginx/nginx.conf
 COPY README.md /usr/local/src/README.md
 
 # Ensure the script is executable
@@ -22,7 +21,7 @@ RUN chmod +x /usr/local/bin/generate_docs.sh
 RUN mkdir -p /usr/share/nginx/html
 
 # Set the working directory
-WORKDIR C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation
+WORKDIR /C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation
 
 # Expose the port on which the container will listen
 EXPOSE 8080
