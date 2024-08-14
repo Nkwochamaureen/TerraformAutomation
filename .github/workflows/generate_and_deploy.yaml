@@ -31,12 +31,19 @@ jobs:
           terraform-docs markdown table .
            mkdocs build
 
+      - name: Install Google Cloud SDK
+        run: |
+             curl https://sdk.cloud.google.com | bash
+             source $HOME/google-cloud-sdk/path.bash.inc
+             
+      - name: Authenticate with Google Cloud
+        run: |
+             gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+   
       - name: Build and push Docker image
         run: |
-          pip install google-cloud-sdk
-          gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
-          docker build -t gcr.io/$PROJECT_ID/terraform-docs:latest .
-          gcloud docker -- push gcr.io/$PROJECT_ID/terraform-docs:latest
+             docker build -t gcr.io/$PROJECT_ID/terraform-docs:latest .
+             docker push gcr.io/$PROJECT_ID/terraform-docs:latest
 
       # Optional: Deploy to Cloud Run
       - name: Deploy to Cloud Run
