@@ -5,8 +5,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy necessary files
-COPY README.md /app/README.md  # Optional for additional content/
-COPY . C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation  # Replace with the actual path to your Terraform code/
+COPY README.md /app/README.md 
+COPY . C:/Users/Admin/OneDrive - Federal University of Technology, Owerri/Documents/TerraformAutomation/TerraformAutomation/
 
 # Install dependencies
 RUN pip install terraform-docs mkdocs
