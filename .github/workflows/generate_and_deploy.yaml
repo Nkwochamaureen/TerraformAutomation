@@ -2,7 +2,7 @@ name: Generate and Deploy Terraform Docs
 
 on:
   push:
-    branches: [main]  # Replace with your desired branch
+    branches: [main]  
 
 jobs:
   build-and-deploy:
