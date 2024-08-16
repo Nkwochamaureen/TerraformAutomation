@@ -1,0 +1,12 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: terraform-docs
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/your-project/your-image
+          env:
+            - name: PORT
+              value: "8080"
