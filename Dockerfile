@@ -8,21 +8,32 @@ WORKDIR /app
 COPY README.md /app/README.md 
 COPY . /app
 
-# Install mkdocs (which is a Python package)
-RUN pip install --no-cache-dir mkdocs
+# Upgrade pip before installing dependencies
+RUN pip install --upgrade pip
 
-# Install terraform-docs by downloading the binary
-RUN apt-get update && apt-get install -y wget && \
-    wget https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz && \
-    tar -xzf terraform-docs-v0.16.0-linux-amd64.tar.gz && \
-    mv terraform-docs /usr/local/bin/terraform-docs && \
-    chmod +x /usr/local/bin/terraform-docs
+# Create a virtual environment
+RUN python -m venv venv
 
+# Activate the virtual environment
+ENV PATH="/app/venv/bin:$PATH"
+
+# Install Python dependencies
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# Install curl for downloading terraform-docs
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+
+ RUN curl -LO https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz \
+     && tar -xzf terraform-docs-v0.16.0-linux-amd64.tar.gz \
+     && mv terraform-docs /usr/local/bin/
+    
 # Expose port for serving documentation
 EXPOSE 8080
 
 # Command to run: Generate documentation and serve
-CMD ["mkdocs", "serve"]
+CMD ["venv/bin/mkdocs", "serve", "-a", "0.0.0.0:8080"]
 
 
 
