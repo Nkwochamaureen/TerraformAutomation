@@ -54,6 +54,7 @@ jobs:
         run: |
                gcloud run deploy terraform-docs \
                --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest \
+               --port 8080 \
                --region us-central1 \
                --platform managed \
                --allow-unauthenticated
