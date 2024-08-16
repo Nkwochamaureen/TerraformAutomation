@@ -53,7 +53,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
                gcloud run deploy terraform-docs \
-               --image gcr.io/$GCP_PROJECT_ID/terraform-docs:$GITHUB_SHA \
+               --image gcr.io/$GCP_PROJECT_ID/terraform-docs:latest \
                --region us-central1 \
                --platform managed \
                --allow-unauthenticated
