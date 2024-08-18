@@ -1,8 +1,68 @@
+# name: Generate and Deploy Terraform Docs
+
+# on:
+#   push:
+#     branches: [main]  
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+
+#       - name: Install terraform-docs
+#         run: |
+#           curl -sSLo terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz
+#           tar -xzf terraform-docs.tar.gz
+#           sudo mv terraform-docs /usr/local/bin/
+#           terraform-docs version
+
+#       - name: Set up Python
+#         uses: actions/setup-python@v3
+#         with:
+#           python-version: 3.8  
+
+#       - name: Install dependencies
+#         run: pip install mkdocs
+
+#       - name: Generate documentation
+#         run: |
+#           terraform-docs markdown table .
+#            mkdocs build
+
+#       - name: Install Google Cloud SDK
+#         run: |
+#              curl https://sdk.cloud.google.com | bash
+#              source $HOME/google-cloud-sdk/path.bash.inc
+             
+#       - name: Authenticate to GCP
+#         uses: google-github-actions/auth@v1
+#         with:
+#                credentials_json: ${{ secrets.GCP_SA_KEY }}
+      
+#       - name: Configure Docker to use gcloud as a credential helper
+#         run: gcloud auth configure-docker
+                      
+   
+#       - name: Build and push Docker image
+#         run: |
+#                  docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest .
+#                  docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest
+    
+#       - name: Deploy to Cloud Run
+#         run: |
+#                gcloud run deploy terraform-docs \
+#                --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest \
+#                --region us-central1 \
+#                --platform managed \
+#                --allow-unauthenticated
+
 name: Generate and Deploy Terraform Docs
 
 on:
   push:
-    branches: [main]  
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -24,36 +84,36 @@ jobs:
           python-version: 3.8  
 
       - name: Install dependencies
-        run: pip install mkdocs
+        run: |
+          pip install -r requirements.txt 
 
       - name: Generate documentation
         run: |
-          terraform-docs markdown table .
-           mkdocs build
+          terraform-docs markdown table . > docs/terraform-docs.md
+          mkdocs build
 
       - name: Install Google Cloud SDK
         run: |
-             curl https://sdk.cloud.google.com | bash
-             source $HOME/google-cloud-sdk/path.bash.inc
-             
+          curl https://sdk.cloud.google.com | bash
+          source $HOME/google-cloud-sdk/path.bash.inc
+
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v1
         with:
-               credentials_json: ${{ secrets.GCP_SA_KEY }}
-      
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Configure Docker to use gcloud as a credential helper
         run: gcloud auth configure-docker
-                      
-   
+                   
       - name: Build and push Docker image
         run: |
-                 docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest .
-                 docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest
-    
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest
+ 
       - name: Deploy to Cloud Run
         run: |
-               gcloud run deploy terraform-docs \
-               --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest \
-               --region us-central1 \
-               --platform managed \
-               --allow-unauthenticated
+          gcloud run deploy terraform-docs \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/terraform-docs:latest \
+            --region us-central1 \
+            --platform managed \
+            --allow-unauthenticated

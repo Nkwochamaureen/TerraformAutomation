@@ -20,9 +20,4 @@ module "load_balancer" {
   cloud_run_service_name = var.cloud_run_service_name
 }
 
-module "storage_bucket" {
-  source              = "./modules/storage_bucket"
-  storage_bucket_name = var.storage_bucket_name
-}
-
   

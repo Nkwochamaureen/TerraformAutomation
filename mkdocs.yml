@@ -4,3 +4,5 @@ site_dir: site
 
 nav:
   - Home: index.md
+  - Other Docs: other-docs.md
+  - Terraform Documentation: terraform-docs.md  
