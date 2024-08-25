@@ -49,9 +49,5 @@ variable "cloud_run_service_name" {
    description = "The cloud run name"
   type        = string
 }
-  
- variable "storage_bucket_name" {
-  description = "The storage bucket for the terraform_docs"
-  type = string
-}
+
 
