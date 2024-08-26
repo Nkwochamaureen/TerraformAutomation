@@ -85,7 +85,7 @@ RUN mkdocs build
 #  #Generate Terraform documentation
 #  RUN terraform-docs markdown table . > docs/terraform-docs.md
 
-# Expose port for serving documentation
+# Expose port for serving documentation ..
 EXPOSE 8080
 
 # Run both the watch_changes.sh script and the HTTP server concurrently with a delay to ensure proper order
