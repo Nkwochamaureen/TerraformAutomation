@@ -1,17 +1,51 @@
 #!/bin/bash
 
-# Path to the generate_terraform_docs.sh script
-DOC_GEN_SCRIPT="/app/generate_terraform_docs.sh"
+# Path to the MkDocs project directory
+WATCH_DIR="."
 
-# Generate docs initially
-bash "$DOC_GEN_SCRIPT"
+# Path to the Dockerfile (use the directory containing the Dockerfile)
+DOCKERFILE_PATH="."
+# List containers using the same image or port and stop them
+existing_container=$(docker ps -q --filter "ancestor=$DOCKER_IMAGE_NAME" --filter "status=running")
+if [ ! -z "$existing_container" ]; then
+  docker stop "$existing_container"
+  docker rm "$existing_container"
+fi
 
-# Monitor for changes in .tf files and run the generation script
-inotifywait -m -r -e modify,create,delete --exclude '.*\.swp$' . |
-while read -r directory events filename; do
-  if [[ "$filename" == *.tf ]]; then
-    echo "Change detected in $filename. Regenerating documentation..."
-    bash "$DOC_GEN_SCRIPT"
-  fi
-done
+# Ensure chokidar is installed
+if ! command -v chokidar &> /dev/null; then
+  echo "Error: chokidar-cli is not installed. Please install it with 'npm install -g chokidar-cli'."
+  exit 1
+fi
+
+# Function to rebuild the Docker image and run the container
+rebuild_and_run_docker() {
+  echo "Change detected. Rebuilding Docker image and restarting the container..."
+  
+  # Build the Docker image
+  docker build -t gcr.io/my_mkdocs_site/terraform-docs:latest -f "$DOCKERFILE_PATH" . || { echo "Docker build failed"; exit 1; }
+
+  # Stop and remove the running container, if exists
+  docker stop "$DOCKER_CONTAINER_NAME" 2>/dev/null || true
+  docker rm "$DOCKER_CONTAINER_NAME" 2>/dev/null || true
+
+  # Run the updated Docker container
+  docker run -d -p 8080:8080 "gcr.io/my_mkdocs_site/terraform-docs:latest" || { echo "Docker run failed"; exit 1; }
+
+  echo "Docker container restarted with the new build."
+}
+
+# Start watching all files and directories in the MkDocs directory
+echo "Starting file watcher with Chokidar..."
+chokidar "$WATCH_DIR/**/*" --silent --command "bash -c '$(declare -f rebuild_and_run_docker); rebuild_and_run_docker'"
+
+
+
+
+
+
+
+
+
+
 

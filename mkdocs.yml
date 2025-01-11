@@ -4,5 +4,6 @@ site_dir: site
 
 nav:
   - Home: index.md
-  - Terraform Documentation: terraform-docs.md  
   - Other Docs: other-docs.md
+  - Loadbalancer: load_balancer.md  
+  - Network: network.md            

@@ -62,8 +62,11 @@ name: Generate and Deploy Terraform Docs
 
 on:
   push:
-    branches: [main]
-
+    branches:
+          - main
+    paths-ignore:
+          - '**/skip-ci/**'
+    
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
