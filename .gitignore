@@ -32,8 +32,9 @@ Desktop.ini
 *.tfstate.backup
 
 # Terraform .terraform directory
-*.terraform/
+.terraform/
 
 *.tfvars
 *terragrunt.hcl
 *site
+.env
