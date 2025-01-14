@@ -1,6 +1,7 @@
 #!/bin/bash
-# Build MkDocs site
- mkdocs build
+cd ../..  # Navigate to the root directory where mkdocs.yml is located
+mkdocs build  # Or whatever MkDocs command you need to run
+
 
 # echo "Documentation generation and MkDocs site build completed!"
 MODULES_DIR="./modules"  # Assuming modules directory is at the root of your project

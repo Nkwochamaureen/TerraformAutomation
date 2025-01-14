@@ -38,8 +38,8 @@ RUN curl -LO https://github.com/terraform-docs/terraform-docs/releases/download/
     && mv terraform-docs /usr/local/bin/    
 
 # Copy the scripts
-COPY generate_terraform_docs.sh /app/generate_terraform_docs.sh
-COPY watch_changes.sh /app/watch_changes.sh
+COPY scripts/generate_terraform_docs.sh /app/generate_terraform_docs.sh
+COPY scripts/watch_changes.sh /app/watch_changes.sh
 
 # Make the scripts executable
 RUN chmod +x /app/generate_terraform_docs.sh /app/watch_changes.sh    
@@ -61,7 +61,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy necessary files
-COPY README.md /app/README.md 
+COPY docs/README.md /app/README.md 
 COPY . /app
 
 # Upgrade pip before installing dependencies
@@ -74,7 +74,7 @@ RUN python -m venv venv
 ENV PATH="/app/venv/bin:$PATH"
 
 # Install Python dependencies
-COPY requirements.txt requirements.txt
+COPY docs/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Install curl for downloading terraform-docs

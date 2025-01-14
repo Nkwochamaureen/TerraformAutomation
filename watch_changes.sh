@@ -1,10 +1,8 @@
 #!/bin/bash
 
 # Path to the MkDocs project directory
-WATCH_DIR="."
+WATCH_DIRS="."
 
-# Path to the Dockerfile (use the directory containing the Dockerfile)
-DOCKERFILE_PATH="."
 # List containers using the same image or port and stop them
 existing_container=$(docker ps -q --filter "ancestor=$DOCKER_IMAGE_NAME" --filter "status=running")
 if [ ! -z "$existing_container" ]; then
@@ -23,7 +21,7 @@ rebuild_and_run_docker() {
   echo "Change detected. Rebuilding Docker image and restarting the container..."
   
   # Build the Docker image
-  docker build -t gcr.io/my_mkdocs_site/terraform-docs:latest -f "$DOCKERFILE_PATH" . || { echo "Docker build failed"; exit 1; }
+  docker build -t gcr.io/my_mkdocs_site/terraform-docs:latest -f "C:\\Users\\Admin\\OneDrive - Federal University of Technology, Owerri\\Documents\\TerraformAutomation\\TerraformAutomation\\docker\\Dockerfile" . || { echo "Docker build failed"; exit 1; }
 
   # Stop and remove the running container, if exists
   docker stop "$DOCKER_CONTAINER_NAME" 2>/dev/null || true
@@ -37,7 +35,7 @@ rebuild_and_run_docker() {
 
 # Start watching all files and directories in the MkDocs directory
 echo "Starting file watcher with Chokidar..."
-chokidar "$WATCH_DIR/**/*" --silent --command "bash -c '$(declare -f rebuild_and_run_docker); rebuild_and_run_docker'"
+chokidar "$WATCH_DIRS/**/*" --silent --ignore "C:/DumpStack.log.tmp" --command "bash -c '$(declare -f rebuild_and_run_docker); rebuild_and_run_docker'"
 
 
 

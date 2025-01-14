@@ -73,4 +73,4 @@ Create a solution to automatically generate, update, and host Terraform document
 5. URL mapping for terraform.example.com.
 
 #### Expected Outcome:
-A fully automated and containerized solution that generates, updates, and hosts Terraform documentation on GCP, accessible securely via terraform.example.com. tttt
+A fully automated and containerized solution that generates, updates, and hosts Terraform documentation on GCP, accessible securely via terraform.example.com.
