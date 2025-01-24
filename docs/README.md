@@ -1,5 +1,7 @@
 # TerraformAutomation
 ### Project Overview: Terraform Documentation Automation and Hosting
+### Workflow Status
+⚠️ Note: The workflows related to GCP are currently disabled due to the expiration of the GCP account. The workflows remain for reference purposes.
 
 #### Objective:
 Create a solution to automatically generate, update, and host Terraform documentation using a containerized approach on Google Cloud Platform (GCP). The solution should not store generated documentation within the codebase but should use a CI/CD pipeline to handle generation and deployment.
